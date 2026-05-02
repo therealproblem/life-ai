@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Pre-commit validation
+# Ensures code is type-safe and tests pass before committing
+
+echo "🔍 Running pre-commit checks..."
+
+# Type check
+echo "  → Type checking..."
+pnpm type-check || exit 1
+
+# Run tests
+echo "  → Running tests..."
+pnpm test --run || exit 1
+
+echo "✅ Pre-commit checks passed!"

@@ -1984,6 +1984,108 @@ class Agent {
 }
 ```
 
+**Test-Driven Development (TDD):**
+
+Mandatory workflow for all new features:
+
+1. **Decide what to build**
+   - Agree on feature scope and requirements
+   - Define inputs, outputs, and behavior
+   - Identify dependencies
+
+2. **Design test cases**
+   - Show what will be tested BEFORE writing code
+   - List all test scenarios
+   - Cover success cases (happy path)
+   - Cover error cases (edge cases, failures)
+   - Cover boundary conditions
+   - Get user approval on test plan
+
+3. **Write tests first**
+   - Implement test cases (they will fail - red)
+   - Tests document expected behavior
+   - Forces thinking about edge cases upfront
+
+4. **Build the feature**
+   - Write minimum code to make tests pass (green)
+   - Focus on functionality, not perfection
+   - Let tests guide implementation
+
+5. **Verify**
+   - Run tests: `pnpm test`
+   - Type-check: `pnpm type-check`
+   - All tests must pass before continuing
+
+6. **Refactor**
+   - Clean up code while tests stay green
+   - Improve naming, structure, documentation
+   - Tests protect against breaking changes
+
+**Benefits of TDD:**
+- Catches bugs before they exist
+- Forces clear requirements thinking
+- Documents expected behavior (tests as specs)
+- Prevents scope creep (only build what's tested)
+- Ensures testability (can't write untestable code)
+- Faster debugging (tests pinpoint failures)
+- Confidence in refactoring (tests verify correctness)
+
+**Example TDD workflow:**
+```
+AI: "Building markdown-parser.ts. Here are the test cases I plan:
+  1. Parse frontmatter from markdown
+  2. Extract wiki-links from content
+  3. Handle missing frontmatter
+  4. Handle malformed YAML
+  5. Return empty array when no links
+  
+Should I proceed with these tests?"
+
+User: "Yes"
+
+AI: [Writes tests - all fail]
+AI: [Implements markdown-parser.ts]
+AI: [Tests pass]
+AI: "All 5 tests passing. Feature complete."
+```
+
+**When to skip TDD:**
+- Never. If it's code, it needs tests.
+- Prototyping/spikes: Mark clearly as "experimental", delete or test before merging
+
+**Pre-Commit Validation:**
+
+Every commit must pass validation before being accepted:
+
+1. **Automated with Husky**
+   - Git pre-commit hook runs automatically
+   - Cannot commit if validation fails
+   - Configured in `.husky/pre-commit`
+
+2. **Validation steps:**
+   ```bash
+   pnpm type-check  # TypeScript compilation
+   pnpm test --run  # All tests must pass
+   ```
+
+3. **Benefits:**
+   - Main branch always builds
+   - No broken commits
+   - Tests can't be forgotten
+   - Quality enforced, not requested
+
+4. **Setup for new developers:**
+   ```bash
+   pnpm install  # Automatically sets up hooks
+   ```
+   Husky's `prepare` script installs hooks on `pnpm install`
+
+**Why Husky over manual hooks:**
+- Version controlled (`.husky/` committed to repo)
+- Automatic setup for all developers
+- Shareable and maintainable
+- Industry standard (recognizable by other devs)
+
 ### 13. Error Handling Philosophy
 
 **Catch errors early and often:**
