@@ -1,0 +1,29 @@
+{
+  "name": "life-ai",
+  "version": "1.0.0",
+  "description": "A comprehensive personal AI agent orchestration system",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "Joseph",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.18.3",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  },
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "^0.72.1",
+    "zod": "^3.25.76"
+  }
+}
