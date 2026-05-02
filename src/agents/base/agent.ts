@@ -61,60 +61,47 @@ export const AgentResponseSchema = z.object({
 /**
  * Base Agent class
  * All specialized agents extend this
+ * 
+ * @template TConfig - Agent-specific configuration type extending AgentConfig
  */
-export abstract class BaseAgent {
-  protected config: AgentConfig;
+export abstract class BaseAgent<TConfig extends AgentConfig = AgentConfig> {
+  protected config: TConfig;
   protected session: AgentSession;
 
   /**
-   * Private constructor - use create() factory method
+   * Protected constructor - use create() factory method
+   * Protected allows subclasses to extend properly
    */
-  private constructor(config: AgentConfig, session: AgentSession) {
+  protected constructor(config: TConfig, session: AgentSession) {
     this.config = config;
     this.session = session;
   }
 
   /**
    * Factory method to create an agent instance
+   * 
+   * MUST be overridden by subclasses with their specific implementation.
+   * This base implementation throws an error to enforce the pattern.
+   * 
+   * @template C - The config type extending AgentConfig
    */
-  static async create<T extends BaseAgent>(
-    this: new (config: AgentConfig, session: AgentSession) => T,
-    config: AgentConfig
-  ): Promise<Result<T>> {
-    try {
-      logger.info('Creating agent', { name: config.name });
-
-      // Create session directory path
-      const sessionPath = `data/sessions/${config.name.toLowerCase().replace(/\s+/g, '-')}`;
-
-      const cwd = process.cwd();
-
-      // Create Pi agent session with read-only tools
-      const { session } = await createAgentSession({
-        cwd,
-        tools: ['read', 'grep', 'find', 'ls'],
-        sessionManager: SessionManager.create(sessionPath),
-      });
-
-      logger.info('Agent session created', { name: config.name });
-
-      // Create instance using the subclass constructor
-      const instance = new this(config, session);
-
-      return {
-        success: true,
-        data: instance,
-      };
-    } catch (error) {
-      const errorMessage = `Failed to create agent: ${error instanceof Error ? error.message : String(error)}`;
-      logger.error(errorMessage, { name: config.name });
-
-      return {
-        success: false,
-        error: error instanceof Error ? error : new Error(String(error)),
-        message: errorMessage,
-      };
-    }
+  static async create<C extends AgentConfig = AgentConfig>(
+    config: C
+  ): Promise<Result<BaseAgent>> {
+    const error = new Error(
+      `create() must be implemented by subclass. ` +
+      `BaseAgent is abstract and cannot be instantiated directly.`
+    );
+    
+    logger.error('Attempted to call BaseAgent.create() directly', {
+      name: config.name,
+    });
+    
+    return {
+      success: false,
+      error,
+      message: error.message,
+    };
   }
 
   /**
