@@ -865,14 +865,20 @@ Based on the **Pi harness philosophy**:
 │   │   │       ├── web-scraper.ts
 │   │   │       └── deduplicator.ts
 │   │   │
-│   │   ├── note-taker/                 # Agent #8: Note-taker ✅
-│   │   │   ├── note-taker-agent.ts     # ✅ Implemented
+│   │   ├── note-taker/                 # Agent #8: Note-taker
+│   │   │   ├── note-taker-agent.ts
 │   │   │   ├── sub-agents/
-│   │   │   │   ├── quick-capture.ts    # ✅ Implemented
-│   │   │   │   ├── auto-linker.ts      # ✅ Implemented
-│   │   │   │   ├── organizer.ts        # ✅ Implemented
-│   │   │   │   └── knowledge-graph.ts  # ✅ Implemented
-│   │   │   └── note-taker.test.ts      # ✅ 13 tests passing
+│   │   │   │   ├── quick-capture.ts
+│   │   │   │   ├── auto-linker.ts
+│   │   │   │   ├── organizer.ts
+│   │   │   │   └── knowledge-graph.ts
+│   │   │   ├── tools/
+│   │   │   │   ├── markdown-parser.ts
+│   │   │   │   ├── file-operations.ts
+│   │   │   │   ├── tf-idf.ts
+│   │   │   │   └── graph-builder.ts
+│   │   │   ├── types.ts
+│   │   │   └── note-taker.test.ts
 │   │   │
 │   │   └── meta/                       # Agent #9: Meta-learning
 │   │       ├── meta-agent.ts
