@@ -1851,6 +1851,141 @@ type Result<T> =
 - Clear error messages
 - Debuggable
 
+### 11. Development Process Principles
+
+**Ask questions one at a time:**
+- Present single decision points with clear recommendations
+- Provide pros/cons for each option
+- Wait for confirmation before proceeding
+- No assumptions - always get explicit approval
+
+**Break down complex decisions:**
+- When options are unclear, explain tradeoffs in detail
+- Help user make informed choices
+- Show examples of each approach
+- Explain why certain options are recommended
+
+**Justify every piece of code:**
+- Question "why do we need this?"
+- Every component must have clear purpose
+- Remove unnecessary complexity
+- Document the reasoning behind design decisions
+
+**Example flow:**
+```
+AI: "Should I use Option A (factory pattern) or Option B (constructor)?"
+User: "Explain the tradeoffs"
+AI: [Detailed pros/cons]
+User: "Option A"
+AI: "Proceeding with factory pattern..."
+```
+
+### 12. Code Quality Principles
+
+**Type safety first:**
+- TypeScript strict mode always enabled
+- Runtime validation with Zod schemas
+- Prefer compile-time errors over runtime failures
+- Use generics for flexible but type-safe APIs
+
+**Incremental progress:**
+- Build one component at a time
+- Run `pnpm type-check` after each change
+- Catch errors early before building more
+- Small, testable increments
+
+**Start simple, add complexity gradually:**
+- Minimal implementation first
+- Add features when actually needed
+- "Easier to diagnose issues and better breakdown"
+- Don't over-engineer upfront
+
+**Example:**
+```typescript
+// Start simple
+class Agent {
+  execute() { ... }
+}
+
+// Add complexity when needed
+class Agent {
+  async initialize() { ... }
+  execute() { ... }
+  validate() { ... }
+  cleanup() { ... }
+}
+```
+
+### 13. Error Handling Philosophy
+
+**Catch errors early and often:**
+- Type-check after every significant change
+- Don't accumulate technical debt
+- Fix errors immediately before continuing
+- Errors reveal design issues - learn from them
+
+**Verify APIs before implementation:**
+- Check actual exports, don't assume
+- Read type signatures carefully
+- Test assumptions with small examples
+- Don't trust documentation alone - verify
+
+**Learn from mistakes:**
+- Wrong import? Check the actual module exports
+- Type mismatch? Understand what the API expects
+- Version conflict? Check breaking changes
+- Each error teaches API design patterns
+
+**Example lessons:**
+```typescript
+// ✗ Assumed: readOnlyTools (doesn't exist)
+// ✓ Verified: createReadOnlyTools(cwd) (actual export)
+
+// ✗ Assumed: tools: Tool[] (wrong type)
+// ✓ Verified: tools: string[] (API expects names)
+```
+
+### 14. Architecture Principles
+
+**Clear separation of concerns:**
+- Each class/module has one focused responsibility
+- Base classes for shared behavior
+- Sub-agents for specialized tasks (no LLM)
+- Agents for decision-making (with LLM)
+
+**Understand foundation before building up:**
+- Build infrastructure first (types, base classes, utils)
+- Test base components before using them
+- Don't build on shaky foundations
+- Each layer depends on stable lower layers
+
+**Prefer explicit over implicit:**
+- Configuration is explicit, not hidden
+- Dependencies are clear in constructors
+- No magic - everything is traceable
+- Factory methods over complex constructors
+
+**Independently testable components:**
+- Each module can be tested in isolation
+- Mock dependencies cleanly
+- Use dependency injection
+- Result<T> for predictable error handling
+
+**Example structure:**
+```typescript
+// Foundation layer
+export type Result<T> = ...
+export class Logger { ... }
+
+// Base layer (depends on foundation)
+export abstract class BaseAgent { ... }
+export abstract class SubAgent { ... }
+
+// Implementation layer (depends on base)
+export class NoteTakerAgent extends BaseAgent { ... }
+export class AutoLinker extends SubAgent { ... }
+```
+
 ---
 
 ## Integration Points
