@@ -43,9 +43,11 @@ coverage/
 # Data directories
 data/sessions/
 data/temp/
-data/obsidian-vault/
 data/artifacts/
 data/knowledge-base/
+
+# Keep test vault in git
+# data/obsidian-vault/ - tracked for testing
 
 # Pi specific
 .pi/
