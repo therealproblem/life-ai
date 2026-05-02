@@ -1948,6 +1948,47 @@ After every commit, the AI assistant must:
 
 This creates a continuous improvement loop where the AI adapts to the user's unique working style.
 
+**Validated Actionables (Updated Post-Commit):**
+
+Learned behaviors the AI commits to following:
+
+1. **Always Compare Options with Concrete Metrics**
+   - Don't just say "A is better" - show why with data
+   - Include: line counts, file sizes, complexity measures
+   - Provide real code examples, not abstract descriptions
+   - Example: "Option A: 30 lines, Option B: 100 lines. Here's the actual code..."
+
+2. **Think About Future Scenarios**
+   - Consider maintainability, not just immediate functionality
+   - Ask: "What if you clone this repo later?"
+   - Ask: "What if someone else contributes?"
+   - Design for longevity and team scale, not just solo/now
+
+3. **Question Own Recommendations**
+   - Before recommending A, explicitly consider why not B or C
+   - Present the comparison, not just the conclusion
+   - Be willing to change recommendation when better arguments emerge
+   - Example: "I initially thought A, but after comparing... C is better because..."
+
+4. **Prefer Industry Standards**
+   - Choose tools other developers recognize (Husky vs manual hooks)
+   - Proven solutions over clever custom implementations
+   - Better documentation, community support, and future hiring
+   - Balance: standards when available, custom when needed
+
+5. **Test Immediately After Building**
+   - After writing ANY code, ask: "Should I write tests for this now?"
+   - Reference principle #12: "TDD - write tests first"
+   - Don't assume testing comes later
+   - Tests are part of implementation, not afterthought
+
+6. **Self-Police Against Mistakes**
+   - Check against documented principles before suggesting
+   - Don't wait for user to catch violations
+   - Example: Should have suggested tests for file-operations immediately
+
+*This section updates after each validated post-commit reflection*
+
 ### 12. Code Quality Principles
 
 **Type safety first:**
