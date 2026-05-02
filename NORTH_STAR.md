@@ -1986,6 +1986,68 @@ export class NoteTakerAgent extends BaseAgent { ... }
 export class AutoLinker extends SubAgent { ... }
 ```
 
+### 15. Version Control Strategy
+
+**What gets tracked in Git:**
+- Source code (`src/`)
+- Configuration files (`package.json`, `tsconfig.json`, etc.)
+- Documentation (`NORTH_STAR.md`, `README.md`, etc.)
+- Test vault (`data/obsidian-vault/`) - safe test data
+- Project structure (empty directories via `.gitkeep` if needed)
+
+**What stays ignored:**
+- Dependencies (`node_modules/`)
+- Build outputs (`dist/`)
+- Environment secrets (`.env`)
+- Session history (`data/sessions/`) - can be large, personal
+- Temporary files (`data/temp/`)
+- Generated artifacts (`data/artifacts/`)
+- Knowledge base (`data/knowledge-base/`) - derived from vault
+- Logs (`logs/`)
+
+**Rationale:**
+
+**Test vault tracked because:**
+- Small size (just examples)
+- Helps onboarding (clone and go)
+- Test data is safe to share
+- Consistency across environments
+- Documents expected structure
+
+**Sessions ignored because:**
+- Can grow very large (100s of MB)
+- Personal conversation history
+- Contains API request/response data
+- Easily regenerated
+- Each developer has own sessions
+
+**Artifacts ignored because:**
+- Generated outputs (documents, charts, reports)
+- Can be reproduced
+- May contain user-specific data
+- Keeps repo focused on source
+
+**Example .gitignore:**
+```gitignore
+# Track source and config
+src/
+package.json
+tsconfig.json
+
+# Track test data
+data/obsidian-vault/
+
+# Ignore runtime data
+data/sessions/
+data/temp/
+data/artifacts/
+data/knowledge-base/
+
+# Ignore dependencies and builds
+node_modules/
+dist/
+```
+
 ---
 
 ## Integration Points
