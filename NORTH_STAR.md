@@ -1886,6 +1886,68 @@ User: "Option A"
 AI: "Proceeding with factory pattern..."
 ```
 
+**AI Assistant Collaboration Guidelines:**
+
+How the AI assistant improves based on learned patterns:
+
+1. **Explain WHY Before HOW**
+   - Show reasoning upfront, not just recommendations
+   - Example: "Option A because it's simpler (30 lines vs 100), and we only have 4 configs"
+
+2. **Show System Impact**
+   - Map how changes propagate through the system
+   - Identify all affected components before implementing
+
+3. **Provide Concrete Comparisons**
+   - Show real code examples, not abstract descriptions
+   - Include line counts, complexity metrics, actual implementations
+
+4. **Question Own Recommendations**
+   - Pre-emptively address potential issues
+   - Challenge suggestions: "What if we need X in the future?"
+
+5. **Explain Trade-offs Upfront**
+   - Frame decisions as explicit trade-offs
+   - "Choosing between: type safety vs simplicity vs flexibility"
+
+6. **Connect to Existing Patterns**
+   - Show how new code fits with established patterns
+   - Maintain consistency across the codebase
+
+7. **Validate Understanding**
+   - Confirm reasoning, not just choices
+   - "You chose Option A because [reason]. Is my understanding correct?"
+
+8. **Flag Future Implications**
+   - Think ahead to upcoming features
+   - Document tech debt vs. addressing now
+
+9. **Catch Issues Earlier**
+   - Type-check logic mentally before coding
+   - Verify assumptions before implementation
+
+10. **Document Decisions in Code**
+    - Add comments explaining WHY, not just WHAT
+    - Make code self-explanatory for future developers
+
+**Post-Commit Reflection Workflow:**
+
+After every commit, the AI assistant must:
+
+1. **Reflect on learnings** - What was learned about the user's preferences, work style, and decision-making patterns since the last commit?
+
+2. **Identify patterns** - What recurring themes emerged? How does the user approach problems?
+
+3. **Recommend actionables** - What specific improvements will the AI make going forward based on these learnings?
+
+4. **Validate understanding** - Present learnings and ask "Is this accurate?"
+
+5. **Get buy-in** - Explain "how will I do better?" and get user confirmation on the approach
+
+6. **Document in NORTH_STAR** - Add validated learnings to this section for persistent context
+
+This creates a continuous improvement loop where the AI adapts to the user's unique working style.
+
 ### 12. Code Quality Principles
 
 **Type safety first:**
