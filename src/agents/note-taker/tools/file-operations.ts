@@ -239,8 +239,43 @@ export async function writeNote(
 }
 
 /**
+ * Recursively list all files in a directory
+ * Helper for listNotes
+ */
+async function listFilesRecursive(
+  dirPath: string,
+  pattern?: RegExp
+): Promise<string[]> {
+  const exists = await fileExists(dirPath);
+  if (!exists) {
+    return [];
+  }
+
+  const entries = await fs.readdir(dirPath, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+
+    if (entry.isDirectory()) {
+      // Recursively search subdirectories
+      const subFiles = await listFilesRecursive(fullPath, pattern);
+      files.push(...subFiles);
+    } else if (entry.isFile()) {
+      // Add file if it matches pattern
+      if (!pattern || pattern.test(fullPath)) {
+        files.push(fullPath);
+      }
+    }
+  }
+
+  return files;
+}
+
+/**
  * List all notes in the vault
  * Returns paths relative to vaultPath
+ * Searches recursively through all subdirectories
  */
 export async function listNotes(
   vaultPath: string,
@@ -251,14 +286,10 @@ export async function listNotes(
     : vaultPath;
   
   try {
-    const result = await listFiles(searchPath, /\.md$/);
-    
-    if (!result.success) {
-      return result;
-    }
+    const files = await listFilesRecursive(searchPath, /\.md$/);
     
     // Make paths relative to vault
-    const relativePaths = result.data.map((file) =>
+    const relativePaths = files.map((file) =>
       path.relative(vaultPath, file)
     );
     
