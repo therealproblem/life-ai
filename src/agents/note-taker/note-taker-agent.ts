@@ -150,7 +150,9 @@ export class NoteTakerAgent extends BaseAgent<NoteTakerAgentConfig> {
       // Step 1: Use LLM (via Pi session) to process the note with quick-note skill
       // This will use the skill to extract tags, category, links, etc.
       logger.debug('Step 1: Processing note with LLM');
-      const quickCaptureResult = await this.quickCapture.run(request.input);
+      const quickCaptureResult = await this.quickCapture.run({
+        content: request.input,
+      });
       
       if (!quickCaptureResult.success) {
         return {
